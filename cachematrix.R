@@ -10,16 +10,22 @@
 ##			the value of an empty matrix.
 ##
 makeCacheMatrix <- function(x = matrix()) {
+	## Cached value
 	inv <- NULL
+	## Property setter; initialized object
 	set <- function(y) {
 		x <<- y
 		inv <<- NULL
 	}
+	## Property getter; returns object
 	get <- function() x
+	## Updates cached value
 	setInv <- function(inverse) {
 		inv <<- inverse
 	}
+	## Returns cached value
 	getInv <- function() inv
+	## Returns object
 	list(
 		set = set,
 		get = get,
@@ -42,12 +48,16 @@ makeCacheMatrix <- function(x = matrix()) {
 cacheSolve <- function(x, ...) {
 	## Return a matrix that is the inverse of 'x'
 	inv <- x$getInv()
+	## See if there is a cached value
 	if(!is.null(inv)) {
 		message('getting cached matrix inverse')
 		return(inv)
 	}
+	## No cached value, so calculate inverse
 	data <- x$get()
 	inv <- solve(data, ...)
+	## Set cached value
 	x$setInv(inv)
+	## Return inverse
 	inv
 }
